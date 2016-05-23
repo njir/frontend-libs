@@ -1,0 +1,1 @@
+alert('both.js');

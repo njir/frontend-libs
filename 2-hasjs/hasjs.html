@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- has.js 추가해서 테스트 하기 -->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+        <title>Insert title here</title>
+        <script src="../libs/jquery/jquery-1.11.0.js">
+        </script>
+        <script src="../libs/hasjs/has.js">
+        </script>
+		<script src="../libs/hasjs/detect/array.js">
+        </script>
+        <script src="../libs/hasjs/detect/audio.js">
+        </script>
+        <script src="custom-detect.js">
+        </script>
+        <script>
+            $(function(){
+                var result = $('#results');
+				//audio
+                if (has('audio')){
+                	result.append('<li>audio true</li>');	
+                } else {
+                	result.append('<li>audio false</li>');
+                }
+                // array-foreach
+                if (has('array-foreach')){
+                	result.append('<li>array-foreach true</li>');	
+                } else {
+                	result.append('<li>array-foreach false</li>');
+                }
+                // canvas
+                if (has('canvas')){
+                	result.append('<li>canvas true</li>');	
+                } else {
+                	result.append('<li>canvas false</li>');
+                }
+                // input-multiple
+                if (has('input-multiple')){
+                	result.append('<li>input-multiple true</li>');	
+                } else {
+                	result.append('<li>input-multiple false</li>');
+                }
+            })
+        </script>
+    </head>
+    <body>
+        <ul id="results">
+        </ul>
+    </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+        <title>Insert title here</title>
+        <script src="../libs/modernizr/modernizr.js">
+        </script>
+        <script>
+        	Modernizr.load([{
+        		test: Modernizr.geolocation && Modernizr.localstroage,
+        		yep: 'yep.js',
+        		nope: ['nope.js', 'test.css'], // css can be dynamic loading
+        		both: 'both.js', // usually common code
+        		complete: function(){
+        			// loading .. the event when finishing
+        			alert('complete');
+        		}
+        	}, {
+        		test: Modernizr.geolocation,
+        		yep: 'yep2.js',
+        		nope: 'nope.js', 
+        		both: 'both.js', // not loading (same code above)
+        	}, {
+        		// just javascript loading without feature detection
+        		load: '../libs/jquery/jquery-1.11.0.js',
+        		complete: function(){
+        			$('#result').text('Hello World');
+        			Modernizr.load('some.js');
+        		}
+        	}]);
+        </script>
+    </head>
+    <body>
+    	<div id="result"></div>
+    </body>
+</html>

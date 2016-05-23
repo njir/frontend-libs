@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="css3pie.css"/>
+
+<script src="../libs/jquery/jquery-1.11.0.js"></script>
+<!-- Apply css3pie dynamically in js -->
+<script src="../libs/css3pie/PIE_IE678.js"></script>
+<script>
+	$(function(){
+		if(window.PIE){
+			$('.aaa').each(function(){
+				PIE.attach(this)
+			})
+		}
+	})
+</script>
+<script src="../libs/html5shiv/html5shiv.js"></script>
+
+</head>
+<body>
+<div class="tabBox">
+    <ul class="tabs">
+        <li class="selected"><a href="#">Tab One</a></li>
+        <li><a href="#">Tab Two</a></li>
+        <li><a href="#">Tab Three</a></li>
+    </ul>
+    <div class="content">
+        <section id="test">
+			<p>
+				helloworld..
+			</p>
+		</section>
+    </div>
+</div>
+
+<img src="sy.jpg" class="aaa" alt=""  />
+</body>
+</html>
