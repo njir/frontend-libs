@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+
+<script src="../libs/jquery/jquery-1.11.0.js"></script>
+<script src="../libs/json3/json3.js"></script>
+<script src="../libs/underscore/underscore.js"></script>
+<script src="../libs/backbone/backbone.js"></script>
+
+<script>
+	$(function(){
+		//view에 찍힐 데이터 추상화 Model 선언
+		var Link = Backbone.Model.extend({
+			defaults: {
+				url: null,
+				title: null,
+				content: null,
+			},
+		})
+		// 화면의 일부분을 책임일 view 클래스 선언
+		var MyView = Backbone.View.extend({
+			tagName: 'p', //전에 view의 element가 최종 p 태그로 감싸서 화면 출력, div 가능..
+			className: 'document-row', // 개발자가 준비한 css class 명
+			// view의 화면을 준비하기위한 함수
+			render: function(){	
+				var data = this.model
+				var view = this.el
+				
+				$(view).html('<a href="'+data.get('url')+'">' + data.get('title') + '</a>')
+				//script template 획득해서 id값으로
+				var tpl = _.template($('#myTemplate').html(), data.toJSON())
+
+				$(view).append(tpl)
+
+				// 외부파일 template
+				$.get('template.html', function(result){
+					var tpl = _.template(result, data.toJSON())
+					$(view).append(tpl)
+				})
+				
+				// 최종화면 출력
+				$('#result').append(view)
+				return this
+			},
+		})
+		
+		var link = new Link({
+			url: 'http://www.google.com',
+			title: 'Google',
+			content: 'Web Search',
+		})
+		
+		var myView = new MyView({
+			model: link,
+		})
+
+		//View의 화면 준비함수, render는 자동호출되지 않음
+		// 생성 후 화면 나올 시점에 코드로 직접 호출
+		// 일반적으로 생성후 화면 출력-> 생성자에서 호출
+		myView.render()
+
+	})
+</script>
+
+<!--  view에 들어가야할 html template
+type은 의미없는 데이터임 (아무 문자열 가능) => js engine 처리하지 못하게
+ -->
+<script type="text/template" id="myTemplate">
+	<h2>Script Template</h2>
+	<p>
+		<%= title %> - <%= content %>
+	</p>
+</script>
+</head>
+<body>
+	<!-- view의 html이 최종 찍힐 위치 -->
+	<div id="result">
+	
+	</div>
+</body>
+</html>
