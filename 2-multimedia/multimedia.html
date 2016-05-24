@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video.js | HTML5 Video Player</title>
+  
+  <!-- test1 -->
+  <link rel="stylesheet" href="../libs/videojs/video-js.css" />
+  <script src="../libs/videojs/video.js"></script>
+  <script>
+  	// video를 지원하지 않는 브라우저를 위한 lib의 swf파일의 위치
+  	_V_.options.flash.swf="../libs/videojs/video-js.swf"
+  </script>
+  
+  <!-- test2 -->
+  <script>
+  	window.onload = function(){
+  		var canvas = document.getElementById('test-canvas')
+  		var context = canvas.getContext('2d')
+  		
+  		context.beginPath()
+  		// parameter : x, y, r, start, end, direction(true - Anticlockwise, false - Clockwise) 
+  		context.arc(70, 70, 50, 0, 2 * Math.PI, false)
+  		context.fillStyle = "RED"
+  		context.fill()
+  		context.closePath()
+  	}
+  </script>
+
+  <!-- test2-1 -->
+  <script src="../libs/flashcanvas/flashcanvas.js"></script>
+        
+  <!-- test3-1 -->
+  <script src="../libs/svgweb/svg.js" data-path="../libs/svgweb" data-debug="true"></script>
+</head>
+<body>
+<p>
+  <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="800" height="600"
+      poster="kstyle.jpg"
+      data-setup='{}'>
+    <source src="kstyle.webmvp8.webm" type='video/webm' />
+    <source src="kstyle.mp4" type='video/mp4' />
+    <source src="kstyle.theora.ogv" type='video/ogg' />
+  </video>
+</p>
+<p>
+	<canvas width="500" height="330" id="test-canvas">
+	</canvas>
+</p>
+<p>
+	<!-- test3 -->
+	<!-- svgweb에 의한 polyfill을 적용하려면 svgweb이 처리하는 부분을 script로 명시해야함 -->
+	<script type="image/svg+xml">
+
+	<!-- SVG는 원래 tag로 그림을 그리는 기술, w3c에서 그 태그를 표준으로 인정함. 브라우저에서 지원한다는 것은 svg engine을 내장하고 있는 것임 -->
+	<svg id="svg1" height="600" xmlns="http://www.w3.org/2000/svg">
+		<rect id="rect1" fill="green" x="50" y="250" width="100" height="100">
+		<animateTransform attributeName="transform" begin="click" dur="20s" type="rotate" from="0 100 300" to="360 100 300" repeatCount="indefinite" />
+		</rect>
+	</svg>
+
+	</script>
+</p>
+</body>
+</html>
