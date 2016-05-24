@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <title>Responsive Web Design</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Type" content="text/html; charset=euc-kr"/>
+        
+        <!-- 하나의 css로 rwd 적용하면 css파일 커진다  
+        	=> 유지보수 문제, mobile traffic, 성능 이슈 
+        	=> css 파일 단위로 나눠서 적용
+
+        <link rel="stylesheet" href="rwd.css" />
+        -->
+        
+        <!--  css 분리하면 유지보수는 좋아지지만  다른 이슈들은 안좋아진다.
+     	최종 media 속성으로 그 css 파일이 적용만 안되는것일뿐, 다운로드는 함
+     	정적으로 추가하지말고 js에서 동적으로 적용
+         -->
+        <link rel="stylesheet" media="screen and (min-width: 1001px)" href="rwd-full.css"/>
+        <link rel="stylesheet" media="screen and (min-width: 801px) and (max-width: 1000px)" href="rwd-1000.css"/>
+        <link rel="stylesheet" media="screen and (min-width: 601px) and (max-width: 800px)" href="rwd-800.css"/>
+		<link rel="stylesheet" media="screen and (min-width: 401px) and (max-width: 600px)" href="rwd-600.css"/>
+		<link rel="stylesheet" media="screen and (max-width: 400px)" href="rwd-400.css"/>
+		
+        <script src="../libs/jquery/jquery-1.11.0.js">
+        </script>
+        
+        <!-- media query polyfill -->
+        <script src="../libs/respond/respond.src.js"></script>
+        
+        <script>
+        	$(function(){
+        		$(window).resize(function(){
+        			var width = parseInt($(this).width())
+        			$('#screenSize').text(width)
+        		})
+        	})
+        </script>
+        
+        <!-- pciture tag polyfill -->
+        <script src="../libs/respimage/respimage.js"></script>
+
+    </head>
+    <body>
+    	<p id="screenSize"></p>
+        <div id="page">
+            <h1>Girl Group 세상에 오신것을 환영합니다.</h1>
+            <div class="entry">
+                <h2>Kara, MissA, 소녀시대, 걸스데이, 시스타, 투에니원</h2>
+                <h3 class="nav">
+                    <p>
+                        <a href="#">About</a>
+                    </p>
+                    <p>
+                        <a href="#">Photo</a>
+                    </p>
+                    <p>
+                        <a href="#">Board</a>
+                    </p>
+                    <p>
+                        <a href="#">schedule</a>
+                    </p>
+                </h3>
+                <div class="content">
+                    <div class="main">
+                        <p>
+                            Kara : 박규리, 한승연, 정니콜, 구하라, 강지영 : 디에스피미디어 : 2007년 데뷔 (Blooming) : 미스터, Wanna, Pandora
+                        </p>
+                        <p>
+                            소녀시대 : 태연, 윤아, 제시카, 수영, 효연, 유리, 써니, 티파니, 서현 : SM 엔터테인먼트 : 2007년 데뷔 (다시만난세계) : The Boys, 소원을 말해봐, 런데빌런
+                        </p>
+                        <p>
+                            MissA : 페이, 지아, 민, 수지 : JYP 엔터테인먼트 : 2010년 데뷔 (BAD BUT GOOD) : Good-bye Baby, 남자 없이 잘 살아, Bad Girl Good Girl
+                        </p>
+                        <p>
+                        <!-- rwd의 가장큰 성능이슈가 이미지임
+                        	화면에 안나올 뿐 다운로드는 다 한다.
+                        	서버에서 이미지를 최초 준비할 때 모바일을 염두해둬서 사이즈 다르게 여러 파일로 준비
+                        	동적으로 이미지를 필요한 순간에 다운로드
+                        	=> js에서 img 태그를 동적으로 양산해서 해결
+                        	=> w3c에서 이 문제를 해결하기 위해 표준 태그 준비중임 but 지원하지 않는 브라우저 많음
+                        -->
+ 	                       <picture>
+ 	                       		<source srcset="1000_suzy.jpg" media="(min-width:1001px)" />
+ 	                       		<source srcset="800_suzy.jpg" media="(min-width:801)" />
+ 	                       		<source srcset="600_suzy.jpg" media="(min-width:601)" />
+ 	                       		<source srcset="400_suzy.jpg" media="(min-width:401px)" />
+        	                    <img id="testImage" src="400_suzy.jpg"/>
+    	                   	</picture>
+                        </p>
+                    </div>
+                    <div class="meta">
+                        <p>
+                            모든 <a href="#">Girl Group</a>
+                            상세보기
+                        </p>
+                        <p>
+                            <a href="#">Kara</a>, <a href="#">MissA</a>, <a href="#">소녀시대</a>, <a href="#">시스타</a>, <a href="#">걸스데이</a>, <a href="#">투에니원</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

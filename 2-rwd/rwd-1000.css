@@ -1,0 +1,51 @@
+
+body {
+    background: navy;
+}
+
+#page { 
+    max-width: 100%; 
+}
+
+p {
+    background: #fff;
+}
+
+h1 {
+    margin-left: 14.575%; 
+    width: 70.85%; 
+}
+
+.entry {
+    float: left;
+    width: 100%;
+}
+
+.entry h2 {
+    float: right;
+    width: 85.425%; 
+}
+
+.entry .nav {
+    float: left;
+    width: 12.551%; 
+}
+
+.entry .content {
+    float: right;
+    width: 85.425%;
+}
+
+.entry .main {
+    float: left;
+    width: 82.938%; 
+}
+
+.entry .meta {
+    float: right;
+    width: 14.692%;
+}
+
+#testImage {
+    width: 100%;
+}

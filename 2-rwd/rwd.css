@@ -1,0 +1,232 @@
+body {
+    background: white;
+}
+
+#page {
+    max-width: 100%;
+}
+
+p {
+    background: #fff;
+}
+
+h1 {
+    margin-left: 14.575%;
+    width: 70.85%;
+}
+
+.entry {
+    float: left;
+    width: 100%;
+}
+
+.entry h2 {
+    float: right;
+    width: 85.425%;
+}
+
+.entry .nav {
+    float: left;
+    width: 12.551%; /* 124px / 988px = .12551 */
+}
+
+.entry .content {
+    float: right;
+    width: 85.425%; /* 844px / 988px = 0.85425 */
+}
+
+.entry .main {
+    float: left;
+    width: 82.938%; /* 700px / 844px = 0.82938 */
+}
+
+.entry .meta {
+    float: right;
+    width: 14.692%; /* 124px / 844px = 0.14692 */
+}
+
+#testImage {
+    width: 100%;
+}
+
+
+@media screen and (max-width: 1000px){
+body {
+    background: navy;
+}
+
+#page { 
+    max-width: 100%; 
+}
+
+p {
+    background: #fff;
+}
+
+h1 {
+    margin-left: 14.575%; 
+    width: 70.85%; 
+}
+
+.entry {
+    float: left;
+    width: 100%;
+}
+
+.entry h2 {
+    float: right;
+    width: 85.425%; 
+}
+
+.entry .nav {
+    float: left;
+    width: 12.551%; 
+}
+
+.entry .content {
+    float: right;
+    width: 85.425%;
+}
+
+.entry .main {
+    float: left;
+    width: 82.938%; 
+}
+
+.entry .meta {
+    float: right;
+    width: 14.692%;
+}
+
+#testImage {
+    width: 100%;
+}
+}
+
+@media screen and (max-width: 800){
+body {
+    background: green;
+}
+
+#page { 
+    max-width: 100%; 
+}
+
+p {
+    background: #fff;
+}
+
+h1 {
+    margin-left: 14.575%;
+    width: 70.85%; 
+}
+
+.entry {
+    float: left;
+    width: 100%;
+}
+
+.entry h2 {
+    float: right;
+    width: 85.425%; 
+}
+
+.entry .nav {
+    float: left;
+    width: 12.551%; 
+}
+
+.entry .content {
+    float: right;
+    width: 85.425%; 
+}
+
+.entry .main {
+    float: left;
+    width: 82.938%; 
+}
+
+.entry .meta {
+	clear:none;
+    float: right;
+    width: 14.692%; 
+}
+
+#testImage {
+    width: 100%;
+}
+}
+
+@media screen and (max-width: 600){
+body {
+    background: yellow;
+}
+
+.entry .meta {
+    clear: left;
+    float: none;
+    width: 100%;
+}
+
+.entry .main {
+    width: 100%;
+}
+
+.entry .nav {
+    display: block;
+	float: left;
+    width: 12.551%; 
+}
+
+.entry h2 {
+    float: right;
+    width: 85.425%; 
+}
+.entry .content {
+    float: right;
+    width: 85.425%; 
+}
+}
+
+@media screen and (max-width: 400){
+body {
+    background: blue;
+}
+#page { 
+    max-width: 100%; 
+}
+p {
+    background: #fff;
+}
+.entry {
+    float: left;
+    width: 100%;
+}
+.entry .nav {
+    display: none;
+}
+
+#testImage {
+    width: 100%;
+}
+
+.entry h2 {
+    float: right;
+    width: 100%;
+}
+
+.entry .content {
+    float: right;
+    width: 100%;
+}
+
+.entry .meta {
+    clear: left;
+    float: none;
+    width: 100%;
+}
+
+.entry .main {
+    width: 100%;
+}
+}

@@ -1,0 +1,29 @@
+
+body {
+    background: yellow;
+}
+
+.entry .meta {
+    clear: left;
+    float: none;
+    width: 100%;
+}
+
+.entry .main {
+    width: 100%;
+}
+
+.entry .nav {
+    display: block;
+	float: left;
+    width: 12.551%; 
+}
+
+.entry h2 {
+    float: right;
+    width: 85.425%; 
+}
+.entry .content {
+    float: right;
+    width: 85.425%; 
+}

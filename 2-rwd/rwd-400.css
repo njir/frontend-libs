@@ -1,0 +1,42 @@
+
+
+body {
+    background: blue;
+}
+#page { 
+    max-width: 100%; 
+}
+p {
+    background: #fff;
+}
+.entry {
+    float: left;
+    width: 100%;
+}
+.entry .nav {
+    display: none;
+}
+
+#testImage {
+    width: 100%;
+}
+
+.entry h2 {
+    float: right;
+    width: 100%;
+}
+
+.entry .content {
+    float: right;
+    width: 100%;
+}
+
+.entry .meta {
+    clear: left;
+    float: none;
+    width: 100%;
+}
+
+.entry .main {
+    width: 100%;
+}

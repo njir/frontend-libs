@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+
+<script src="../libs/jquery/jquery-1.11.0.js"></script>
+<script src="../libs/json3/json3.js"></script>
+<script src="../libs/underscore/underscore.js"></script>
+<script src="../libs/backbone/backbone.js"></script>
+<script>
+	$(function(){
+		// 데이터 추상화. 일종의 VO(Value-Object) 역할 model 선언
+		var User = Backbone.Model.extend({
+			defaults: {
+				name: null,
+				email: null,
+				address: null,
+			},
+			// 일종의 생성자. 객체 생성 후 데이터 세팅 -> 호출
+			initialize: function(attrs, options){
+				console.log(this.get('name') + " : " + this.get('age'))
+			},
+			url: 'server.jsp', //model 데이터 서버 연동 url
+			validate: function(attrs, options){
+				// model의 유효성 검증 추상화
+				if((attrs.name == undefined) && (attrs.name == null)){
+					// backbone이 도와주는건 이벤트 자동 발생시켜주는 것
+					// return의 유무(return이 있으면 invalid)
+					return 'error: name is null'
+				}
+			}
+		})
+		var user1 = new User({
+			name: 'tak',
+			email: 'njir@naver.com',
+			address: 'seoul',
+			age: '27',
+		})
+		console.log(user1.get('name') + " : " + user1.get('age'))
+		
+		//데이터 변경 이벤트 
+		user1.on('change', function(args){
+			console.log(args.attributes.name)
+		})
+		user1.set('name', 'JIN')
+		
+		// 만약 유효성 검증 실패시, 이벤트모델로
+		user1.on('invalid', function(model, error){
+			alert('user1 invalid: ' + error)
+		})
+		
+		var user2 = new User()
+		user2.on('invalid', function(model, error){
+			alert('user2 invalid: ' + error)
+		})
+		
+		// 1. server 연동시 자동 유효성 검증
+		//user1.save()
+		//user2.save()
+		
+		// 2. 개발자 코드 임의 순간 유효성 검증
+		//user2.isValid()
+		
+		// 3. model에 데이터 셋팅 순간에 유효성 검증
+		user2.set({
+			name: 'test',
+			email: 'b@b.com',
+			address: 'test',
+		}, { 
+			validate: true,
+		})
+		
+		//4. model 객체 여러개를 담을 collection
+		var UserCollection = Backbone.Collection.extend({
+			model: User
+		})
+		
+		var userCollection = new UserCollection()
+		userCollection.add(user1)
+		userCollection.add(user2)
+		
+		var UserListPage = Backbone.Model.extend({
+			defaults: {
+				pageNum: 1,
+				pageCount: 1,
+				pageList: userCollection,
+			},
+		})
+		var listPage = new UserListPage()
+		alert(listPage.get('pageList').get('c2').get('name'))
+	})
+
+</script>
+
+</head>
+<body>
+
+</body>
+</html>
