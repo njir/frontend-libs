@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+        <title>Insert title here</title>
+        <script src="../libs/jquery/jquery-1.11.0.js">
+        </script>
+        <script src="../libs/underscore/underscore.js">
+        </script>
+        <script src="../libs/json3/json3.js">
+        </script>
+        <script src="../libs/backbone/backbone.js">
+        </script>
+        <script>
+        // Server data가 저장될 Model
+        var Item = Backbone.Model.extend({ })
+        var ItemCollection = Backbone.Collection.extend({
+        	model: Item
+        })
+        
+        // 화면 View
+        var ContentView = Backbone.View.extend({
+        	render: function(){
+        		$('#result').append(this.el)
+        		$(this.el).html('<h2>' + this.model.get('title') + '</h2>' + this.model.get('content'))
+        		return this
+        	}
+        })
+        
+        var view = null // 현재 화면을 지칭하는 view 객체 
+        var collection = new ItemCollection()
+        // 실제 서버에서 데이터가 전달된 후 생성
+        var MyRouter = Backbone.Router.extend({
+        	//hash 조건
+        	routes: {
+        		'info/:id': 'showInfo',
+        		'*actions': 'defaultRoute',
+        	},
+        	// router의 생성자
+        	initialize: function(options){
+        		$.ajax({
+        			url: 'test.json',
+        			dataType: 'json',
+        			success: function(data){
+        				// 데이터 갯수만큼 model 객체 생성
+        				for(var i = 0; i < data.length; i++){
+        					var item = new Item()
+        					item.set({
+        						id: data[i].id,
+        						title: data[i].title,
+        						content: data[i].content,
+        					})
+        					collection.add(item)
+        				}
+        			}
+        		})        		
+        		return this
+        	},
+        	// Router 정의임
+        	defaultRoute: function(actions){
+        		// 초기화면으로 판단
+       			// 현재 특정 view화면이 나오고 있다면 제거
+        		if(view){
+        			$(view.el).remove()
+        		}
+        	},
+        	showInfo: function(id){
+        		// 이화면을 위한 데이터 collection에서 획득
+        		var model = collection.at(id-1)
+        		if(view){
+        			$(view.el).remove()
+        		}
+        		// 새로운 view 생성 -> 화면 뿌려줌
+        		view = new ContentView({
+        			model: model
+        		})
+        		view.render()
+        	}
+        })
+        
+        var myRouter = new MyRouter
+        Backbone.history.start()
+
+        </script>
+    </head>
+    <body>
+        <div id="result">
+        </div>
+        <p>
+            <a href="#info/1">data1</a>
+            <a href="#info/2">data2</a>
+            <a href="#info/3">data3</a>
+        </p>
+    </body>
+</html>
