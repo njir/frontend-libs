@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!-- 
+	개발자가 직접 작성한 hmtl을 angular에서 추출해서 작업 후 뿌리는 구조, 전체 html에서 static하게 그냥 출력되야하는 부분도 있음	 
+	ng-app으로 선언된 부분만 angularjs와 관련이 있음
+-->
+<html ng-app>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<style>
+	.first {
+		background-color: #BEBEBE;
+	}
+	.last {
+		background-color: #DCDCDC;
+	}
+</style>
+<script src="../libs/angular/angular.js"></script>
+<script>
+	// view 를 위한 업무로직 추상화 Controller - 일반 function
+	// angular에 의해 자동 추출
+	function userController($scope){
+		// view에 찍힐 데이터는 $scope에 담아야함
+		$scope.title = 'User Model'
+		$scope.users = [{
+			name: 'kkang',
+			age: 30
+		},{
+			name: 'tak',
+			age: 20
+		}]
+		$scope.getSize = function(){
+			return $scope.users.length
+		}
+	}
+	
+	// 매개변수는 순서랑 상관없다. 이름이 중요하다
+	// 이름을 보고 객체를 주입시켜주는 개념
+	function productController($scope, $http){
+		$scope.title = 'Product Model Title'
+		// 서버 연동
+		$http({
+			method: 'get',
+			url: 'some-json.jsp',
+		}).success(function(data, status){
+			$scope.products = data
+		})
+		
+		$scope.addProduct = function(){
+			//  view에서 발생한 데이터
+			$scope.products.push({
+				name: $scope.name,
+				price: $scope.price,
+			})
+			// view 데이터 초기화
+			$scope.name = ''
+			$scope.price = ''
+		}
+	}
+	
+	function superController($scope){
+		$scope.superName = 'tak super name'
+		$scope.superClick = function(){
+			// 하위쪽에 데이터 전달
+			// 이벤트 발생시키고 하위 쪽에서 이벤트 등록해서 처리하는 방식
+			// $broadcast 하위 방향 이벤트 발생
+			// aaa 라는 개발자 이름의 이벤트
+			// 그 때 콜백 함수에 매개변수로 데이터 전달
+			$scope.$broadcast('aaa', $scope.superCount)
+		}
+		// $on 이벤트 콜백 함수 등록
+		// bbb라는 이벤트가 발생한다면
+		$scope.$on('bbb', function(event, data){
+			$scope.subData = 'subData changed : ' + data
+		})
+	}
+
+	function subController($scope){
+		$scope.subName = 'Sub Sub Sub name'
+		$scope.subClick = function(){
+			// super에게 데이터 전달하기 위한 이벤트 발생
+			// $emit : 상위로 이벤트 발생
+			$scope.$emit('bbb', $scope.subCount)
+		}
+		$scope.$on('aaa', function(event, data){
+			$scope.superData = 'superData changed : ' + data
+		})
+	}
+
+</script>
+</head>
+<body>
+	<div ng-controller="userController">
+		<h1>{{title}}</h1>
+		<h3>{{users[0].name}} : {{users[0].age}}</h3>
+		<ul>
+			<!-- users 객체 갯수만큼 루프문 -->
+			<div ng-repeat="a in users">
+				<li>{{a.name}} - {{a.age}}</li>
+			</div>
+		</ul>
+		<!-- function call -->
+		<h4>Total count : {{getSize()}}</h4> 
+	</div>
+	<br/>
+	<div ng-controller="productController">
+		<h2>{{title}}</h2>
+		<ul>
+			<div ng-repeat="product in products">
+				<!-- ng-repeat는 내부적으로 루프문을 돌리면서 첫번째라면 내부객체 $first가 true, 마지막이라면 $last가 true 
+				
+				$first가 true이면 개발자가 준비한 first라는 css class 추가
+				-->
+				<li ng-class="{first : $first == true, last: $last == true}">
+				{{$index + 1}}: {{product.name}} - {{product.price}}
+				</li>
+			</div>
+		</ul>
+		Name : <input type="text" ng-model="name" />
+		Price : <input type="text" ng-model="price" />
+		<button ng-click="addProduct()">Add</button>
+	</div>
+	<br/>
+	<br/>
+	
+	
+	<!--  view 중복 -->
+	<div ng-controller="superController">
+		Super Name: {{superName}}
+		<br/>
+		Count: <input type="text" ng-model="superCount" />
+		<button ng-click="superClick()">Change</button>
+		<br/>
+		{{subData}}
+
+		<div ng-controller="subController">
+			Super Name: {{superName}}
+			Sub Name : {{subName}}
+			<br/>
+			Count: <input type="text" ng-model="subCount" />
+			<button ng-click="subClick()">Change</button>
+			<br/>
+			{{superData}}
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+        <title>Insert title here</title>
+        <script src="../libs/angular/angular.js">
+        </script>
+        
+        <!-- router는 일종의 angular 내부에서 만든 공통 업무코드(provider). 독립 module로 제공되고 js파일로도 제공 -->
+        <script src="../libs/angular/angular-route.js"></script>
+        <script>
+        	var userData
+        	
+        	//module 하나 선언
+        	// ng-app이 myApp인 태그부분 관리
+        	// ngRoute dependency 
+        	var myAppModule = angular.module('myApp', ['ngRoute'], function($routeProvider){
+        		//$routeProvider라는 ngRoute에서 제공하는 객체에 hash 조건만 등록
+        		$routeProvider.when('/lists', {
+        			template: '<ul><li ng-repeat="user in users">' + '<a href="#/lists/{{user.id}}">' + '{{user.name}}</a></li></ul>',
+        			controller: userListController,
+        		})
+        		$routeProvider.when('/lists/:userId', {
+        			templateUrl: 'template.html',
+        			controller: userDetailController,
+        		})
+        		$routeProvider.when('/lists/:userId/aaa/:bbb*', {
+        			template: 'Hello World',
+        			controller: someController,
+        		})
+        		$routeProvider.otherwise({
+        			// etc
+        			redirectTo: '/lists'
+        		})
+        	}) 
+        	
+        	function userListController($scope, $http){
+        		$http({
+        			method: 'get',
+        			url: 'some-json.jsp'
+        		}).success(function(data, status){
+        			userData = data
+        			$scope.users = userData
+        		})
+        		$scope.title = 'User List'
+        	}
+        	function userDetailController($scope, $routeParams){
+        		$scope.title = 'User Detail'
+        		$scope.user = userData[$routeParams.userId]
+        	}
+        	function someController($scope, $routeParams){
+        		alert($routeParams.userId + ":" + $routeParams.bbb)
+        	}
+        	
+        </script>
+
+    </head>
+    <body>
+    	<h1>This is Router Test</h1>
+		<div>{{title}}</div>
+		<!-- router에 의한 template html(view)가 찍힐 위치 -->
+		<div ng-view>
+		
+		</div>
+
+
+		<br/>
+		<a href="#/lists/10/aaa/hello/world">some</a>
+		<br/>
+
+
+    </body>
+</html>
