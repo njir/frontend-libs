@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<title>Insert title here</title>
+<style>
+			.switch {
+				width:180px;
+				border: 1px solid;
+				text-align:center;
+				font-weight:bold;
+    			color: white;
+			}
+			.oncolor {
+				background:#00ff00;
+			}
+			.offcolor {
+				background:#ff0000;
+			}
+			
+</style>
+<script src="../libs/angular/angular.js"></script>
+<script>
+	var myApp = angular.module('myApp', []);
+	myApp.controller('someController', function($scope){
+		console.log('someController....')
+		$scope.name = 'tak'
+		$scope.address = 'seoul'
+		$scope.email = 'seoul@seoul.com'
+		$scope.url = 'www.google.com'
+		$scope.someFn = function(){
+			alert("tatatatkatkakta")
+		}
+	})
+
+	myApp.directive('lifeCycle', function(){
+		return {
+			template: '<a href="{{url}}">{{name}}</a><span ng-transclude/>',
+			replace: false,
+			transclude: true, //서브 내용 가져와 달라
+			restrict: 'E',
+			scope: false, // html view의 scope 그대로 사용한다
+			compile: function(tElement, tAttr, transclude){
+				// controller가 동작하기 전에 호출되어
+				// template에 준비된 html을 변형하기 위해서 이용
+				// scope가 전달 안되므로 데이터에 의한 변형 불가
+				console.log('compile....' + tElement.html())
+				tElement.append('<b> Hello </b>')
+				return {
+					pre: function(scope, tElement, tAttr, controller, transclude){
+						//scope가 전다로디어 scope 데이터에 의한 html 조작 가능
+						// pre이므로 sub내용(transclude)이 해석되기 전단계임
+						console.log('PreLink...' + scope.name + '....' + tElement.html())
+					}, 
+					post: function(scope, tElement, tAttr, controller, transclude){
+						// scope 전달, transclude 작업 후 호출
+						// sub 내용 받을 수 있다
+						console.log('PostLink...' + scope.name + '....' + tElement.html())
+						for(var i = 0; i < scope.count; i++){
+							tElement.append('World')
+						}
+					}
+				}
+			},
+			// compile -> post의 축약형
+			// compile 정의되어 있으면 호출 안됨
+			link: function(scope, tElement, tAttr, controller){
+				console.log('Link...' + tElement.html())
+			},
+			controller: function($scope, $element, $attrs, $transclude){
+				console.log('Directive Controller....')
+				$scope.url = 'http://www.naver.com'
+				$scope.name = 'naver'
+				$scope.count = 3
+			}
+		}
+	})
+	
+	myApp.directive('scopeDirective', function(){
+		return {
+			restrict: 'E',
+			template: '{{data0}} - {{data1}} - {{data2}} - ' + '{{data3}} - {{data4}} - <a ng-click="myclick()">aaa</a>',
+			scope: {
+				// false: default.. view의 scope를 그대로
+				// true: view scope를 상속으로 새로 생성
+				// {} : 완전히 별개로 가겠다
+				// view의 데이터와 연계성이 없다면 {}로 끝내도 된다.
+				// 별개로 정의하지만 몇개 땡겨오고 싶을 때 가져오는 규칙을 {}에 명시
+				
+				data1: '@myUser', //attr이 my-user의 값
+				data2: '@', // attr로 data2의 값
+				data3: '=', // attr의 값이 그쪽 scope의 변수명(그 scope의 값을 가져옴) -> url 스코프의 값을 가져오는 것임 
+				data4: '=myurl', //attr scope의 값
+				myclick: '&aaa' // &는 함수
+			}
+		}
+	})
+	
+	myApp.directive('transcludeOne', function(){
+		return {
+			replace: 'false',
+			transclude: true,
+			restrict: 'E',
+			template: '<a href="#">I am Root</a>',
+			compile: function(tElement, tAttr, transclude){
+				// compile에서 단순 return. postLink 함수
+				return function(scope, tElement, tAttr){
+					// html의 attr값 획득하고
+					var count = tAttr.count // 이 값을 하위에 전달 -> 새로운 scope 생성해서 전달해야함
+					var childScope = scope.$new() // 새로운 객체 생성
+					childScope.count = count
+				 	// 하위에 전달
+					var childElement = transclude(childScope)
+					tElement.append(childElement)
+				}
+			}
+		}
+	})
+	
+	myApp.directive('transcludeTwo', function(){
+		return {
+			replace: 'false',
+			transclude: true,
+			restrict: 'E',
+			compile: function(tElement, tAttr, transclude){
+				// compile에서 단순 return. postLink 함수
+				return function(scope, tElement, tAttr){
+					// 상위에서 넘긴 데이터 scope에서 받아야함
+					var count = scope.count
+					var myElement = angular.element('<ul></ul')
+					// 하위 문자열 획득. 무조건 scope 전달해야함
+					// 	<transclude-two> Tak </transclude-two>  -> Tak 문자열 얻기
+					var childScope = scope.$new()
+					var childElement = transclude(childScope)
+					for(var i = 0; i < count; i++){
+						var li = angular.element('<li>' + childElement.html() + '</li>')
+						myElement.append(li)
+					}
+					tElement.append(myElement)
+				}
+			}
+		}
+	})
+</script>
+</head>
+<body>
+
+	<div ng-controller="someController">
+		<h2>Directive LifeCycle Test</h2>
+		<life-cycle>tak</life-cycle>
+		
+		<h2>Scope Test</h2>
+		<scope-directive my-user="{{name}}" data2="{{address}}" data3="email" myurl="url" aaa="someFn()"></scope-directive>
+
+		<h2>Transclude Test - 값 전달</h2>
+		<transclude-one count="3">
+			<transclude-two> Tak </transclude-two>
+		</transclude-one>
+		
+		
+	</div>
+
+
+</body>
+</html>
