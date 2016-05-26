@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+        <title>Insert title here</title>
+        <script src="../libs/angular/angular.js">
+        </script>
+        <script>
+            var myApp = angular.module('myApp', []);
+            myApp.controller('oneController', function($scope){
+                $scope.developers = [{
+                    name: "홍길동",
+                    city: "서울"
+                }, {
+                    name: "김길동",
+                    city: "부산"
+                }, {
+                    name: "박길동",
+                    city: "인천"
+                }, {
+                    name: "서길동",
+                    city: "대전"
+                }];
+            });
+            
+        </script>
+    </head>
+    <body>
+
+
+    </body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+        <title>Insert title here</title>
+        <link href="../libs/jqueryui/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+        <script src="../libs/jquery/jquery-1.11.0.js">
+        </script>
+        <script src="../libs/jqueryui/jquery-ui-1.10.4.custom.js">
+        </script>
+        <style>
+            .ui-menu {
+                position: absolute;
+                width: 100px;
+            }
+        </style>
+        <script>
+            $(function(){
+			//add 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+				// tab 적용
+				$('#tabs').tabs();
+				//button
+				$('input:submit, a, button, #a1', '.demo').button()
+				
+				$('#rerun').button().click(function(){
+					alert('button Click')
+				}).next().button({
+					icons: {
+						primary: 'ui-icon-triangle-1-s',
+					},
+					text: false,
+				}).click(function(){
+					var menu = $(this).parent().next().show().position({
+						my: 'left top',
+						at: 'left bottom',
+						of: this,
+					})
+					$(document).on('click', function(){
+						menu.hide()
+					})
+					return false
+				}).parent().buttonset().next().hide().menu()
+				
+				$('#accordion').accordion({
+					active: 1,
+					heightStyle: 'fill',
+				})
+				
+				var mySource = ['JavaScript', 'java', 'asp', 'php', 'scala']
+				$('#autocomplete').autocomplete({
+					source: mySource
+				})
+				
+				$('#datepicker').datepicker()
+            });
+        </script>
+    </head>
+    <body>
+        <div id="tabs">
+			<!-- add 1 ~~~~~~~~~~~~~~~~~-->
+			<!-- tab button -->
+			<ul>
+				<li><a href="some.html">some</a></li>
+				<li><a href="#tab2">tab2</a></li>
+				<li><a href="#tab3">tab3</a></li>
+			</ul>
+            
+
+
+            <div id="tab2">
+                <p>
+                	
+                    <div class="demo">
+            			<div id="a1">
+                			hello
+            			</div>
+            			<button>
+                			A button element
+            			</button>
+            			<input type="submit" value="A submit button"/>
+						<a href="#">An anchor</a>
+        			</div>
+		
+					<div>
+            			<button id="rerun">
+                			Run last action
+            			</button>
+            			<button id="select">
+                			Select an action
+            			</button>
+        			</div>
+        			<ul>
+            			<li>
+                			<a href="#">Open...</a>
+            			</li>
+           				<li>
+                			<a href="#">Save</a>
+            			</li>
+            			<li>
+                			<a href="#">Delete</a>
+            			</li>
+        			</ul>
+                </p>
+            </div>
+            <div id="tab3">
+                <p>
+                	<div id="accordion">
+                	<h2><a href="#">AutoComplete</a></h2>
+                		<div>
+                			<p><input id="autocomplete"/></p>
+                		</div>
+                		<p><a href="#">DatePicker</p>
+                		<p><input type="text" id="datepicker"/></p>
+                	</div>
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
