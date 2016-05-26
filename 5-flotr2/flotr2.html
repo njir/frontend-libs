@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<style>
+	#container {
+		width: 600px;
+		height: 384px;
+		margin: 8px auto;
+	}
+	
+
+</style>
+</head>
+<body>
+	<div id="container"></div>
+	<script src="../libs/flotr2/flotr2.js"></script>
+	<script>
+		(function(){
+			// chart data
+			var d1 = []
+			var d2 = []
+			var d3 = []
+			
+			for(var i=0; i < 20; i++){
+				point = [i, Math.ceil(Math.random()*10)]
+				d1.push(point)
+				point = [i, Math.ceil(Math.random()*10)]
+				d2.push(point)
+				point = [i, Math.ceil(Math.random()*10)]
+				d3.push(point)
+			}
+			// chart 기본 옵션
+			var options = {
+				legend: {
+					position: 'ne',
+				},
+				selection: {
+					mode: 'x', //유저 selection 이벤트
+					// x축 방향으로 지원하라
+				}
+			}
+
+			function drawChart(opts){
+				//Chart 그리기위한 개발자 함수
+				//chart 기본 option과 매개변수 옵션을 조합해서
+				// flotr2의 api
+				o = Flotr._.extend(Flotr._.clone(options), opts || {})
+				graph = Flotr.draw(container, [{
+					label: 'Data1',
+					data: d1,
+				}, {
+					label: 'Data2',
+					data: d2,
+					points: {
+						show: true,
+					},
+				}, {
+					label: 'Data3',
+					data: d3,
+					lines: {
+						show: true,
+					},
+					points: {
+						show: true,
+					},
+				}], o)
+			}
+			drawChart()
+			// user event
+			Flotr.EventAdapter.observe(container, 'flotr:select', function(area){
+				//다시 차트 그림.옵션 조정해서
+				drawChart({
+					xaxis: {
+						min: area.x1,
+						max: area.x2,
+					}
+				})
+			})
+			
+			Flotr.EventAdapter.observe(container, 'flotr:click', function(){
+				// 다시 기본 옵션 적용해서 그림
+				drawChart()
+			})
+		})()
+	</script>
+</body>
+</html>

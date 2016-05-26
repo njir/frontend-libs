@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>BootStrap Basic Test</title>
+	
+        <!-- Bootstrap -->
+        <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="../libs/bootstrap/css/docs.min.css" rel="stylesheet"/>
+		<style type="text/css">
+            body {
+                padding-top: 0;
+                padding-bottom: 40px;
+            }
+            
+            /* Carousel base class */
+            .carousel {
+                margin-bottom: 60px;
+            }
+            
+            .carousel .container {
+                position: relative;
+                z-index: 9;
+            }
+            
+            .carousel-control {
+                height: 1500px;
+                margin-top: 0;
+                font-size: 120px;
+                text-shadow: 0 1px 1px rgba(0, 0, 0, .4);
+                background-color: transparent;
+                border: 0;
+                z-index: 10;
+            }
+            
+            .carousel .item {
+                height: 300px;
+            }
+            
+            .carousel img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                min-width: 100%;
+                height: 300px;
+            }
+            
+            .carousel-caption {
+                background-color: transparent;
+                position: static;
+                max-width: 550px;
+                padding: 0 20px;
+                margin-top: 200px;
+            }
+            
+            .carousel-caption h1, .carousel-caption .lead {
+                margin: 0;
+                line-height: 1.25;
+                color: #fff;
+                text-shadow: 0 1px 1px rgba(0, 0, 0, .4);
+            }
+            
+            .carousel-caption .btn {
+                margin-top: 10px;
+            }
+        </style>
+        <!--[if lt IE 9]>
+            <script src="../libs/html5shiv/html5shiv.js"></script>
+            <script src="../libs/respond/respond.js"></script>
+        <![endif]-->
+        <script src="../libs/jquery/jquery-1.11.0.js">
+        </script>
+        <script src="../libs/bootstrap/js/bootstrap.js">
+        </script>
+        <script>
+            $(function(){
+                $(window).resize(function(){
+                    var width = parseInt($(this).width());
+                    $('#screenSize').text(width);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <p id="screenSize">
+        </p>
+        <div class="container">
+
+        </div>
+
+    </body>
+</html>
