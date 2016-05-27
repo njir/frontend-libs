@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+        <title>Insert title here</title>
+        <link rel="stylesheet" href="./css/test.css"/>
+        <script src="../libs/jquery/jquery-1.11.0.js">
+        </script>
+        <script>
+            var FileAPI = {
+                debug: true,
+                staticPath: '../libs/fileapi/'
+            };
+        </script>
+        <script src="../libs/fileapi/FileAPI.min.js">
+        </script>
+        <script src="../libs/fileapi/plugins/FileAPI.id3.js">
+        </script>
+        <script src="../libs/fileapi/plugins/FileAPI.exif.js">
+        </script>
+        <script>
+            //copy------------------------------------
+            // Simple JavaScript Templating
+            // John Resig - http://ejohn.org/ - MIT Licensed
+            (function(){
+                var cache = {};
+                
+                this.tmpl = function tmpl(str, data){
+                    // Figure out if we're getting a template, or if we need to
+                    // load the template - and be sure to cache the result.
+                    var fn = !/\W/.test(str) ? cache[str] = cache[str] ||
+                    tmpl(document.getElementById(str).innerHTML) : // Generate a reusable function that will serve as a template
+                    // generator (and which will be cached).
+                    new Function("obj", "var p=[],print=function(){p.push.apply(p,arguments);};" +
+                    
+                    // Introduce the data as local variables using with(){}
+                    "with(obj){p.push('" +
+                    
+                    // Convert the template into pure JavaScript
+                    str.replace(/[\r\t\n]/g, " ").split("<%").join("\t").replace(/((^|%>)[^\t]*)'/g, "$1\r").replace(/\t=(.*?)%>/g, "',$1,'").split("\t").join("');").split("%>").join("p.push('").split("\r").join("\\'") +
+                    "');}return p.join('');");
+                    
+                    // Provide some basic currying to the user
+                    return data ? fn(data) : fn;
+                };
+            })();
+
+            
+            
+            function html5Upload(){
+                var form_data = new FormData();
+                for (i = 0; i < $('#html5upload').prop("files").length; i++) {
+                    form_data.append("file", $('#html5upload').prop("files")[i]);
+                }
+                $.ajax({
+                    url: "/WebAppLab/upload",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    type: 'post',
+                    success: function(response){
+                        alert('upload success');
+                    },
+                    error: function(xhr, ajaxOptions, thrownError){
+                        alert('upload error');
+                    }
+                })
+            }
+            
+            $(function(){
+                FileAPI.event.on(fileapiupload, 'change', function(evt){
+                
+                    var files = FileAPI.getFiles(evt);
+                    
+                    FileAPI.filterFiles(files, function(file, info/**Object*/){
+                        alert(file.type + ":" + file.size + ":" + file.name);
+                        if (/^image/.test(file.type)) {
+                            alert('img file:' + info.width + "," + info.height);
+                        }
+
+                        return true;
+                        
+                    }, function(files/**Array*/, rejected/**Array*/){
+						//add------------------------------
+                        if (files.length) {
+                            FileAPI.each(files, function(file){
+                            
+                                var fileinfo = $('<div/>').prependTo('#preview');
+                                fileinfo.append(tmpl($('#b-file-ejs').html(), {
+                                    file: file
+                                }));
+                                
+                            });
+                            
+                        }
+						//add- end---------------------------
+                        
+                        
+                        
+                        FileAPI.upload({
+                            url: '/WebAppLab/upload',
+                            files: files,
+                            complete: function(err, xhr){
+                                if (!err) {
+                                    var result = xhr.responseText;
+                                    alert(result);
+                                }
+                            }
+                        });
+                        
+                    });
+                });
+                
+                
+            });
+        </script>
+    </head>
+    <body>
+
+        <p>
+            <h3>HTML5 multiple file upload</h3>
+            <input type="file" multiple id="html5upload"/>
+            <button onclick="html5Upload()">
+                upload
+            </button>
+            <p id="html5info">
+            </p>
+        </p>
+
+        <p>
+            <div class="js-fileapi-wrapper">
+                <h3>FileAPI Core multiple file upload</h3>
+                <input type="file" multiple id="fileapiupload"/>
+				
+				<!------------add-------------------->
+                <p>
+                    <div id="preview">
+                    </div>
+                    <script id="b-file-ejs" type="text/ejs">
+                        <a class="js-name b-file__name"><%=file.name %></a>
+                        <br/>
+                        size: <%=(file.size/FileAPI.KB).toFixed(2) %>KB
+                    </script>
+                </p>
+				<!------------add----- end --------------->
+            </div>
+        </p>
+    </body>
+</html>
