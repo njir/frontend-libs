@@ -1,1 +1,14 @@
 # Front-End Libs
+- jQueryBBQ
+- HasJS
+- html5shiv
+- Modernizr
+- videoJS
+- flashcanvas
+- respond
+- backboneJS
+- angularJS
+- bootstrap
+- flotr2
+- jqGrid
+- jQueryUI
