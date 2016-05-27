@@ -1,0 +1,17 @@
+<h1>{{title}}</h1>
+<ul *ngIf="codes.length">
+    <li *ngFor="#code of codes" (click)="clickFn(code)" >{{code.title}} = {{code.content}}</li>
+</ul>
+{{user.name}} - {{user.age}}<br/>
+
+<br/>
+<div *ngIf="eventData">
+    {{eventData.content}}
+</div>
+
+<br/>
+
+<!-- [(ngModel)] 에 의한 two way binding의 경우 이 변수는 component에 선언되어 있지 않아도 된다.  11-->
+<input [(ngModel)]="inputData">
+
+<p>{{inputData}}<p>2
