@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- 
+	static html이 아니라 jsp, php 처럼 server side script동작해서 데이터 찍어 넘기는 dynamic html
+-->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+        <title>Insert title here</title>
+
+		<!-- 
+			client에게 파일을 그냥 넘겨야하는 static file 등은 public 디렉토리에 위치시켜야함
+			public 부터의 경로로 줘야함
+		-->
+    	<script src="/libs/json3/json3.js"></script>
+
+        <script src="/libs/jquery/jquery-1.11.0.js">
+        </script>
+        
+        <script src="http://localhost:3003/socket.io/socket.io.js"></script>
+        <script>
+          	var socket = io.connect('http://localhost:3003');
+                  
+            $(function(){
+				socket.on('news', function(data){
+					$('#result').append('<li>'+data+'</li>');
+					if(data=='ready'){
+						$('#msg').css('display','block');
+					}
+                });
+
+				
+				$('#nickBtn').click(function(){
+					socket.emit('nickname', $('#nickname').val());
+				});
+				$('#msgBtn').click(function(){
+					socket.emit('msg', $('#message').val());
+					$('#result').append("my msg:"+$('#message').val());
+				});
+            })
+        </script>
+
+    </head>
+    <body>
+    	<p>
+    		<input type="text" id="nickname"><button id="nickBtn">nickname</button>
+    	</p>
+		<p id="msg" style="display:none;">
+			<input type="text" id="message"><button id="msgBtn">send</button>
+		</p>
+		<p>
+			<ul id="result"></ul>
+		</p>
+    </body>
+</html>

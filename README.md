@@ -1,4 +1,5 @@
 # Front-End Libs
+- jQuery
 - jQueryBBQ
 - HasJS
 - html5shiv
@@ -12,3 +13,5 @@
 - flotr2
 - jqGrid
 - jQueryUI
+- socketIO
+- json3

@@ -2,3 +2,5 @@
 *.ogv
 *.webm
 *.zip
+node_modules/
+.settings/
