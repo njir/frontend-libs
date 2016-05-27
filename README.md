@@ -11,7 +11,8 @@
 - angularJS
 - bootstrap
 - flotr2
-- jqGrid
+- jQGrid
 - jQueryUI
 - socketIO
 - json3
+- requireJS
